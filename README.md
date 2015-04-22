@@ -8,7 +8,7 @@ xlsx-git provides hooks to convert .xlsx files into their XML format before comm
 
 ## Issues
 So many issues.
- - NOT TESTED AND MAY WIPE OUT ALL YOUR FILES.
+ - **NOT TESTED AND MAY WIPE OUT ALL YOUR FILES**.
  - xlsx-git automatically adds and commits *any* .xlsx files in your working tree, regardless of whether you've added them yet.
  - risk of conflicts with other files
  - fills up your `git status` with lots of deleted XML files. 
