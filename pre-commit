@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# pre-commit-excel: have git handle xlsx files by deflating them and storing
+#                   the XML in the repository, not the zip file. 
+#
+#                   companion to post-commit-excel
+#
+
+# -- config -- #
+TMP_PREFIX='~git.' # prefix XML directory--should NOT conflict with 
+                   # anything in your repo
+
+# -- end config -- #
+
+echo
+echo "=== Pre-commit XLSX processing ===="
+
+unpack_xlsx () {
+    # unzip the xlsx file and delete it
+    if [ -e "$1" ]; then
+        unzip "$1" -d "${TMP_PREFIX}$1"
+        rm "$1"
+    else
+        # abort the commit if this isn't an excel file somehow
+#        # !!!THIS ISN'T DOING ANYTHING YET!!!                      /!\
+        return 1
+    fi
+}
+
+# make it easy to iterate over subdirectories
+shopt -s globstar
+
+# unpack all the zipfiles
+for i in **/*.xlsx; do 
+    dir=$(dirname "$i")
+    file=$(basename "$i")
+    cd "$dir"
+    unpack_xlsx "$file"
+    cd -
+    git add "$dir/${TMP_PREFIX}$file"
+done
+
+echo "=== End of pre-commit processing ==="
+echo
+
