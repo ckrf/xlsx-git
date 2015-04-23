@@ -6,7 +6,7 @@
 #                    companion to pre-commit-excel
 
 # -- config -- #
-TMP_PREFIX='~git.' # prefix XML directory--should NOT conflict with 
+TMP_PREFIX='.~' # prefix XML directory--should NOT conflict with 
                    # anything in your repo
 
 # -- end config -- #
