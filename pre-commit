@@ -37,6 +37,8 @@ for i in **/*.xlsx; do
     cd "$dir"
     unpack_xlsx "$file"
     cd -
+    # unstage the actual excel file
+    git reset HEAD "$dir/$file"
     git add "$dir/${TMP_PREFIX}$file"
 done
 
