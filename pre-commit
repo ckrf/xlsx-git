@@ -22,9 +22,14 @@ unpack_xlsx () {
         unzip "$1" -d "${TMP_PREFIX}$1"
     else
         # abort the commit if this isn't an excel file somehow
-#        # !!!THIS ISN'T DOING ANYTHING YET!!!                      /!\
-        return 1
+        echo "$1 is not an xlsx file. this is a bug."
+        exit 3
     fi
+}
+
+reformat_xmls () {
+    # reformat the xml file to many lines
+    find "$1" -name "*.xml" -type f -exec xmllint --output '{}' --format '{}' \;
 }
 
 # make it easy to iterate over subdirectories
@@ -46,6 +51,7 @@ for i in **/*.xlsx; do
     file=$(basename "$i")
     cd "$dir"
     unpack_xlsx "$file"
+    reformat_xmls "${TMP_PREFIX}$file"
     cd -
     # unstage the actual excel file
     git reset HEAD "$dir/$file"
