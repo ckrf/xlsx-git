@@ -30,6 +30,16 @@ unpack_xlsx () {
 # make it easy to iterate over subdirectories
 shopt -s globstar
 
+# check that the swap file isn't there
+for i in **/*.xlsx; do 
+    dir=$(dirname "$i")
+    file=$(basename "$i")
+    if [ -e "$dir/~\$$file" ]; then
+        echo "$file swap file present: close xlsx file before committing"
+        exit 2 # excel file is open
+    fi
+done
+
 # unpack all the zipfiles
 for i in **/*.xlsx; do 
     dir=$(dirname "$i")
