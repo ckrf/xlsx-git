@@ -16,10 +16,10 @@ echo
 echo "=== Pre-commit XLSX processing ===="
 
 unpack_xlsx () {
-    # unzip the xlsx file and delete it
+    # unzip the xlsx file 
     if [ -e "$1" ]; then
+        if [ -e "${TMP_PREFIX}$1" ]; then rm -rf "${TMP_PREFIX}$1"; fi
         unzip "$1" -d "${TMP_PREFIX}$1"
-        rm "$1"
     else
         # abort the commit if this isn't an excel file somehow
 #        # !!!THIS ISN'T DOING ANYTHING YET!!!                      /!\

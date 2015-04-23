@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# post-checkout-excel: have git handle xlsx files by deflating them and storing
+#                      the XML in the repository, not the zip file. 
+#
+#                      companion to pre-commit-excel
+
+# -- config -- #
+TMP_PREFIX='.~' # prefix XML directory--should NOT conflict with 
+                   # anything in your repo
+
+# -- end config -- #
+
+echo
+echo "=== Post-checkout XLSX processing ===="
+
+repack_xlsx () {
+    # re-zip the XML directory 
+    cd "${TMP_PREFIX}$1"
+    zip "../$1" -r *
+    cd ..
+}
+
+# make it easy to iterate over subdirectories
+shopt -s globstar
+
+# repack all the zipfiles
+start_dir="$(pwd)"
+for i in **/${TMP_PREFIX}*.xlsx; do 
+    dir=$(dirname "$i")
+    base=$(basename "$i")
+    file=${base:${#TMP_PREFIX}}
+    #echo "dir: $dir"
+    #echo "base: $base"
+    #echo "prefix length: ${#TMP_PREFIX}"
+    #echo "file: $base"
+    cd "$dir"
+    repack_xlsx "$file"
+    cd "$start_dir"
+done
+
+echo "=== End of post-checkout processing ==="
+echo

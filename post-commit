@@ -11,30 +11,29 @@ TMP_PREFIX='.~' # prefix XML directory--should NOT conflict with
 
 # -- end config -- #
 
-echo
-echo "=== Post-commit XLSX processing ===="
-
-repack_xlsx () {
-    # re-zip the XML directory and delete it
-    cd "${TMP_PREFIX}$1"
-    zip "../$1" -r *
-    cd ..
-    rm -r "${TMP_PREFIX}$1"
-}
-
-# make it easy to iterate over subdirectories
-shopt -s globstar
-
-# repack all the zipfiles
-start_dir="$(pwd)"
-for i in **/*.xlsx; do 
-    dir=$(dirname "$i")
-    base=$(basename "$i")
-    file=${base:${#TMP_PREFIX}}
-    cd "$dir"
-    repack_xlsx "$file"
-    cd "$start_dir"
-done
-
-echo "=== End of post-commit processing ==="
-echo
+#echo
+#echo "=== Post-commit XLSX processing ===="
+#
+#repack_xlsx () {
+#    # re-zip the XML directory 
+#    cd "${TMP_PREFIX}$1"
+#    zip "../$1" -r *
+#    cd ..
+#}
+#
+## make it easy to iterate over subdirectories
+#shopt -s globstar
+#
+## repack all the zipfiles
+#start_dir="$(pwd)"
+#for i in **/*.xlsx; do 
+#    dir=$(dirname "$i")
+#    base=$(basename "$i")
+#    file=${base:${#TMP_PREFIX}}
+#    cd "$dir"
+#    repack_xlsx "$file"
+#    cd "$start_dir"
+#done
+#
+#echo "=== End of post-commit processing ==="
+#echo
