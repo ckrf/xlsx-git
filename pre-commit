@@ -32,11 +32,8 @@ reformat_xmls () {
     find "$1" -name "*.xml" -type f -exec xmllint --output '{}' --format '{}' \;
 }
 
-# make it easy to iterate over subdirectories
-shopt -s globstar
-
-# check that the swap file isn't there
-for i in **/*.xlsx; do 
+# check that the swap file isn't there (if the xlsx has been staged)
+for i in $(git diff --name-only --cached -- *.xlsx); do 
     dir=$(dirname "$i")
     file=$(basename "$i")
     if [ -e "$dir/~\$$file" ]; then
@@ -45,8 +42,8 @@ for i in **/*.xlsx; do
     fi
 done
 
-# unpack all the zipfiles
-for i in **/*.xlsx; do 
+# unpack all the zipfiles (if the xlsx has been staged)
+for i in $(git diff --name-only --cached -- *.xlsx); do 
     dir=$(dirname "$i")
     file=$(basename "$i")
     cd "$dir"
