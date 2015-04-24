@@ -4,6 +4,7 @@
 #                      the XML in the repository, not the zip file. 
 #
 #                      companion to pre-commit-excel
+#                      currently identical to post-commit
 
 # -- config -- #
 TMP_PREFIX='.~' # prefix XML directory--should NOT conflict with 
@@ -16,6 +17,7 @@ echo "=== Post-checkout XLSX processing ===="
 
 repack_xlsx () {
     # re-zip the XML directory 
+    rm "$1"
     cd "${TMP_PREFIX}$1"
     zip "../$1" -r *
     cd ..

@@ -30,7 +30,7 @@ unpack_xlsx () {
 # create a placeholder text file for the .xlsx file, which uniquely identifies
 # it and prevents losing work on a checkout
 replace_with_placeholder () {
-    sha1sum "$1" > "$1"
+    sha1sum "$1" | tee "$1" > /dev/null # hack for overwriting without temp file
 }
 
 
@@ -56,11 +56,14 @@ for i in $(git diff --name-only --cached -- *.xlsx); do
     cd "$dir"
     unpack_xlsx "$file"
     replace_with_placeholder "$file"
+    echo -n "Commit placeholder file: "
+    file "$file"
     reformat_xmls "${TMP_PREFIX}$file"
     cd -
 
-    # stage the XML files
+    # stage the XML files and the placeholder
     git add "$dir/${TMP_PREFIX}$file"
+    git add "$dir/$file"
 done
 
 echo "=== End of pre-commit processing ==="

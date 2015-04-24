@@ -9,14 +9,14 @@ xlsx-git provides hooks to convert .xlsx files into their XML format before comm
 ## Issues
  - **NOT TESTED AND MAY WIPE OUT ALL YOUR FILES**.
  - risk of conflicts with other files
- - xlsx files don't actually appear in the repository
+
+### Checkout restrictions
+When you have .xlsx files in your repo, you won't be able to checkout other branches or commits because the post-checkout hook always leaves the .xlsx files in a "modified" state. This protects you against accidentally losing saved but not committed work in Excel. Before `checkout`, use `git stash` to get to a clean state by hiding away your Excel files.
 
 ## Installation and Use
 1. Place pre-commit and post-commit in the .git/hooks/ directory of your repository. 
 2. Make sure they are executable (e.g., `chmod 755 *-commit`)
 
 ## Dependencies
-I use Cygwin and the GNU tools that go with that. With Git Extensions or MinGW you may need some other basic commands, like dirname and basename. Some packages in particular:
-* `bash` >= 4.0
-* `xmllint`
+I use Cygwin and the GNU tools that go with that. With Git Extensions or MinGW you may need some other basic commands, like dirname and basename. In addition:
 * `zip` and `unzip`
