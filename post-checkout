@@ -30,10 +30,6 @@ for i in **/${TMP_PREFIX}*.xlsx; do
     dir=$(dirname "$i")
     base=$(basename "$i")
     file=${base:${#TMP_PREFIX}}
-    #echo "dir: $dir"
-    #echo "base: $base"
-    #echo "prefix length: ${#TMP_PREFIX}"
-    #echo "file: $base"
     cd "$dir"
     repack_xlsx "$file"
     cd "$start_dir"
